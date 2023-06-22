@@ -1,0 +1,18 @@
+Configuration:
+  status: info
+  monitorInterval: 10
+
+  appenders:
+    Console:
+      name: console
+      PatternLayout:
+        Pattern: "%d{dd/MM HH:mm:ss.SSS} [%style{%t}{green}] %highlight{%-5level} %style{%c{16}}{yellow} - %msg%n%throwable"
+
+  loggers:
+    logger:
+      - name: aero.airlab
+        level: debug
+    Root:
+      level: info
+      AppenderRef:
+        ref: console
