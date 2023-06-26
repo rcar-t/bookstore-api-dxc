@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Getter
@@ -26,4 +27,7 @@ public class AuthorModel {
 
     @Temporal(TemporalType.DATE)
     private Date birthday;
+
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
+    private ArrayList<BookModel> books;
 }

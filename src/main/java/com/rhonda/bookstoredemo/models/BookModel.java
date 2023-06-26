@@ -26,7 +26,15 @@ public class BookModel {
 
     private String title;
 
-    private ArrayList<String> authors;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "books_authors",
+            joinColumns = {
+                    @JoinColumn(name = "book_id", referencedColumnName = "book_id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "author_id", referencedColumnName = "author_id",
+                            nullable = false, updatable = false)})
+    private ArrayList<AuthorModel> authors;
 
     private int year;
 

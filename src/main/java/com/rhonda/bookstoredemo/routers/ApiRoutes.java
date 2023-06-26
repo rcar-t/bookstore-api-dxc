@@ -18,9 +18,13 @@ public class ApiRoutes {
        return route().path("/api/v1", apiBuilder -> apiBuilder
                 .path("/book", bookBuilder -> bookBuilder
                         .POST("/create", accept(APPLICATION_JSON), bookHandler::insertBook)
+                        .GET("/get", accept(APPLICATION_JSON), bookHandler::getBook)
                         .PUT("/update/{id}", accept(APPLICATION_JSON), bookHandler::updateBook)
                         .DELETE("/delete/{id}",  bookHandler::deleteBook)
                 )
+//               .path("/user", bookBuilder -> bookBuilder
+//                       .GET()
+//               )
         ).build();
     }
 }
