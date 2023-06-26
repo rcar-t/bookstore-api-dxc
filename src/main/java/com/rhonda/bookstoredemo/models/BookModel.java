@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-@Entity
+@Entity()
 @Table(name = "BOOKS")
 public class BookModel {
 

@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -51,9 +49,8 @@ public class BookServiceImpl implements BookService{
         return Flux.fromIterable(books);
     }
 
-    private String getAuthorIds(String authorNames) {
-        return "(" + Arrays.stream(authorNames.split(","))
-                .map(it -> authorRepository.findByName(it).getId())
-                .collect(Collectors.joining(",")) + ")";
+    private List<String> getAuthorIds(String authorNames) {
+        return Arrays.stream(authorNames.split(","))
+                .map(it -> authorRepository.findByName(it).getId()).toList();
     }
 }
