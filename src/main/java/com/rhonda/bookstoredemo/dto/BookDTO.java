@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,7 +27,7 @@ public class BookDTO {
 
     @NotNull(message = "authors cannot be null")
     @NotEmpty(message = "must have at least one author")
-    private ArrayList<AuthorModel> authors;
+    private List<AuthorModel> authors;
 
     @NotNull(message = "year cannot be null")
     @Positive()

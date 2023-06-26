@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,7 +34,7 @@ public class BookModel {
             inverseJoinColumns = {
                     @JoinColumn(name = "author_id", referencedColumnName = "author_id",
                             nullable = false, updatable = false)})
-    private ArrayList<AuthorModel> authors;
+    private List<AuthorModel> authors;
 
     private int year;
 

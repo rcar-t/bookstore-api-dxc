@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.swing.text.html.Option;
-import java.awt.print.Book;
 import java.net.URI;
 import java.time.Instant;
 import java.util.List;
@@ -45,7 +42,9 @@ public class BookHandler {
     }
 
     public Mono<ServerResponse> getBook(ServerRequest serverRequest){
-
+        logger.trace(
+                util.format("Get book called at {}", Instant.ofEpochMilli(System.currentTimeMillis()).toString())
+        );
         Optional<String> title = serverRequest.queryParam("title");
         Optional<String> authorNames = serverRequest.queryParam("authors");
         return bookService.getBookByTitleOrAuthorName(title, authorNames).collectList()
@@ -55,7 +54,6 @@ public class BookHandler {
     }
 
     public Mono<ServerResponse> updateBook(ServerRequest serverRequest){
-
         return serverRequest
                 .bodyToMono(BookDTO.class)
                 .flatMap(it -> ServerResponse.ok()
@@ -64,6 +62,13 @@ public class BookHandler {
     }
 
     public Mono<ServerResponse> deleteBook(ServerRequest serverRequest){
-        return ServerResponse.ok().body(Mono.just("DELETE"), String.class);
+        Optional<String> id = serverRequest.queryParam("book_id");
+        if (id.isPresent()) {
+            if (bookService.deleteBook(id.get())) {
+                String message = util.format("Book {} deleted successfully.", id.get());
+                return ServerResponse.ok().body(Mono.just(message), String.class);
+            }
+        }
+        return ServerResponse.notFound().build();
     }
 }

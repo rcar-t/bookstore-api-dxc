@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,5 +29,5 @@ public class AuthorModel {
     private Date birthday;
 
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
-    private ArrayList<BookModel> books;
+    private List<BookModel> books;
 }

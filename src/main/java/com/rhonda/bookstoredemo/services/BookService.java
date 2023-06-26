@@ -11,4 +11,6 @@ public interface BookService {
     Mono<BookDTO> insertOrUpdateBook(BookDTO bookDTO);
 
     Flux<BookDTO> getBookByTitleOrAuthorName(Optional<String> title, Optional<String> authorNames);
+
+    Boolean deleteBook(String id); 
 }

@@ -2,6 +2,7 @@ package com.rhonda.bookstoredemo.services;
 
 import com.rhonda.bookstoredemo.dto.BookDTO;
 import com.rhonda.bookstoredemo.models.AuthorModel;
+import com.rhonda.bookstoredemo.models.BookModel;
 import com.rhonda.bookstoredemo.repositories.AuthorRepository;
 import com.rhonda.bookstoredemo.repositories.BookRepository;
 import com.rhonda.bookstoredemo.utils.Util;
@@ -47,6 +48,18 @@ public class BookServiceImpl implements BookService{
         }
 
         return Flux.fromIterable(books);
+    }
+
+    @Override
+    public Boolean deleteBook(String id) {
+        Optional<BookModel> book = bookRepository.findById(id);
+
+        if (book.isPresent()) {
+            bookRepository.delete(book.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private List<String> getAuthorIds(String authorNames) {
