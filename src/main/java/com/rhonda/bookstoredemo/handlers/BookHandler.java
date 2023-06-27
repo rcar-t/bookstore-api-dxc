@@ -3,6 +3,8 @@ package com.rhonda.bookstoredemo.handlers;
 import com.rhonda.bookstoredemo.dto.BookDTO;
 import com.rhonda.bookstoredemo.services.BookService;
 import com.rhonda.bookstoredemo.utils.Util;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.net.URI;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -27,18 +31,30 @@ public class BookHandler {
     private final Util util = new Util();
 
     @Autowired
+    private Validator validator;
+
+    @Autowired
     private BookService bookService;
 
     public Mono<ServerResponse> insertBook(ServerRequest serverRequest){
-        logger.trace(
+        logger.debug(
                 util.format("Insert book called at {}", Instant.ofEpochMilli(System.currentTimeMillis()).toString())
         );
         return serverRequest
                 .bodyToMono(BookDTO.class)
-                .flatMap(it -> ServerResponse
-                        .created(URI.create("/api/v1/books/create"))
-                        .body(bookService.insertOrUpdateBook(it), BookDTO.class)
-                );
+                .flatMap(it -> {
+                    Set<ConstraintViolation<BookDTO>> violations = validator.validate(it);
+                    if (!violations.isEmpty()) {
+                        String errorMessages = violations.stream()
+                                .map(ConstraintViolation::getMessage)
+                                .collect(Collectors.joining(", "));
+                        throw new IllegalArgumentException("Book cannot be added: " + errorMessages);
+                    }
+                    return ServerResponse
+                            .created(URI.create("/api/v1/book/create"))
+                            .contentType(APPLICATION_JSON)
+                            .body(bookService.insertOrUpdateBook(it), BookDTO.class);
+                });
     }
 
     public Mono<ServerResponse> getBook(ServerRequest serverRequest){

@@ -10,7 +10,7 @@ Configuration:
 
   loggers:
     logger:
-      - name: aero.airlab
+      - name: com.rhonda.bookstoredemo
         level: debug
     Root:
       level: info
