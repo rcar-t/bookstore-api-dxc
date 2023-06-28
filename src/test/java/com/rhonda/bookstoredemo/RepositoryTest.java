@@ -12,9 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDate;
 import java.util.List;
 
-@DataJpaTest(properties = {
-
-})
+@DataJpaTest
 @ActiveProfiles("test")
 public class RepositoryTest {
 
