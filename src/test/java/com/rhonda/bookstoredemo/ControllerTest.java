@@ -46,8 +46,8 @@ public class ControllerTest {
 
     @Test
     public void insertBookOkTest() {
-        AuthorDTO author = new AuthorDTO("id", "name", new Date(12000L));
-        BookDTO book = new BookDTO("id", "isbn", "title", List.of(author), 1900, 50.4, "genre");
+        AuthorDTO author = new AuthorDTO(1L, "name", new Date(12000L));
+        BookDTO book = new BookDTO(1L, "isbn", "title", List.of(author), 1900, 50.4, "genre");
 
         when(bookService.insertOrUpdateBook(any())).thenReturn(Mono.just(book));
 
@@ -57,13 +57,13 @@ public class ControllerTest {
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody()
-                .jsonPath("$.id").isEqualTo("id");
+                .jsonPath("$.id").isEqualTo(1L);
     }
 
     @Test
     public void insertBookDataValidationTest() {
-        AuthorDTO author = new AuthorDTO("id", "name", new Date(12000L));
-        BookDTO book = new BookDTO("id", "", "", List.of(author), -40, 50.4, "genre");
+        AuthorDTO author = new AuthorDTO(1L, "name", new Date(12000L));
+        BookDTO book = new BookDTO(1L, "", "", List.of(author), -40, 50.4, "genre");
 
         when(bookService.insertOrUpdateBook(any())).thenReturn(Mono.just(book));
 

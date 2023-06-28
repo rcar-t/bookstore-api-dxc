@@ -12,5 +12,5 @@ public interface BookService {
 
     Flux<BookDTO> getBookByTitleOrAuthorName(Optional<String> title, Optional<String> authorNames);
 
-    Boolean deleteBook(String id); 
+    Boolean deleteBook(Long id);
 }

@@ -1,7 +1,6 @@
 package com.rhonda.bookstoredemo.dto;
 
 import com.rhonda.bookstoredemo.models.AuthorModel;
-import com.rhonda.bookstoredemo.models.BookModel;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -18,23 +18,27 @@ import java.util.Date;
 @Accessors(chain = true)
 public class AuthorDTO {
 
-    private String id;
+    private Long id;
 
     @NotBlank(message = "isbn cannot be empty")
     private String name;
 
-    private Date birthday;
+    private String birthday;
 
     public AuthorModel toAuthorModel() {
         return new AuthorModel()
                 .setId(id)
                 .setName(name)
-                .setBirthday(birthday);
+                .setBirthday(birthdayInDate());
     }
 
     public AuthorDTO(AuthorModel authorModel) {
         id = authorModel.getId();
         name = authorModel.getName();
-        birthday = authorModel.getBirthday();
+        birthday = authorModel.getBirthday().toString();
+    }
+
+    public LocalDate birthdayInDate() {
+        return LocalDate.parse(birthday);
     }
 }

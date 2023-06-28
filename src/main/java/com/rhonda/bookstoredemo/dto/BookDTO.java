@@ -17,7 +17,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class BookDTO {
 
-    private String id;
+    private Long id;
 
     @NotBlank(message = "isbn cannot be empty")
     private String isbn;

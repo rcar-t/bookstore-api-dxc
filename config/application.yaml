@@ -1,14 +1,15 @@
 spring:
   jpa:
-    hibernate: auto-update
+    hibernate:
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_example
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://localhost:3306/bookstore
+    username: admin
+    password: admin
     driver-class: com.mysql.cj.jdbc.Driver
 #  security:
 #    oauth2:
@@ -36,4 +37,4 @@ server:
   port: 8080
 
 logging:
-  config: classpath:log4j2.yaml
+  config: config/log4j2.yaml

@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,21 +65,36 @@ public class BookHandler {
         return bookService.getBookByTitleOrAuthorName(title, authorNames).collectList()
                 .flatMap(it -> ServerResponse.ok()
                         .contentType(APPLICATION_JSON)
-                        .body(it, List.class));
+                        .bodyValue(it));
     }
 
     public Mono<ServerResponse> updateBook(ServerRequest serverRequest){
+        logger.debug(
+                util.format("Update book called at {}", Instant.ofEpochMilli(System.currentTimeMillis()).toString())
+        );
         return serverRequest
                 .bodyToMono(BookDTO.class)
-                .flatMap(it -> ServerResponse.ok()
-                        .body(bookService.insertOrUpdateBook(it), BookDTO.class)
+                .flatMap(it -> {
+                    Set<ConstraintViolation<BookDTO>> violations = validator.validate(it);
+                    if (!violations.isEmpty()) {
+                        String errorMessages = violations.stream()
+                                .map(ConstraintViolation::getMessage)
+                                .collect(Collectors.joining(", "));
+                        throw new IllegalArgumentException("Book cannot be added: " + errorMessages);
+                    }
+                    return ServerResponse.ok()
+                            .body(bookService.insertOrUpdateBook(it), BookDTO.class);
+                    }
                 );
     }
 
     public Mono<ServerResponse> deleteBook(ServerRequest serverRequest){
+        logger.debug(
+                util.format("Delete book called at {}", Instant.ofEpochMilli(System.currentTimeMillis()).toString())
+        );
         Optional<String> id = serverRequest.queryParam("book_id");
         if (id.isPresent()) {
-            if (bookService.deleteBook(id.get())) {
+            if (bookService.deleteBook(Long.parseLong(id.get()))) {
                 String message = util.format("Book {} deleted successfully.", id.get());
                 return ServerResponse.ok().body(Mono.just(message), String.class);
             }

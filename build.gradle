@@ -38,7 +38,8 @@ dependencies {
 		exclude module: "mockito-core"
 	}
 	testImplementation "io.projectreactor:reactor-test",
-			"org.mockito:mockito-core:${dep_version_mockito}"
+			"org.mockito:mockito-core:${dep_version_mockito}",
+			"com.h2database:h2"
 
 	testRuntimeOnly files("config")
 }

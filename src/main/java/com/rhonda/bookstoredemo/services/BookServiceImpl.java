@@ -1,7 +1,6 @@
 package com.rhonda.bookstoredemo.services;
 
 import com.rhonda.bookstoredemo.dto.BookDTO;
-import com.rhonda.bookstoredemo.models.AuthorModel;
 import com.rhonda.bookstoredemo.models.BookModel;
 import com.rhonda.bookstoredemo.repositories.AuthorRepository;
 import com.rhonda.bookstoredemo.repositories.BookRepository;
@@ -51,7 +50,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Boolean deleteBook(String id) {
+    public Boolean deleteBook(Long id) {
         Optional<BookModel> book = bookRepository.findById(id);
 
         if (book.isPresent()) {
@@ -62,7 +61,7 @@ public class BookServiceImpl implements BookService{
         }
     }
 
-    private List<String> getAuthorIds(String authorNames) {
+    private List<Long> getAuthorIds(String authorNames) {
         return Arrays.stream(authorNames.split(","))
                 .map(it -> authorRepository.findByName(it).getId()).toList();
     }

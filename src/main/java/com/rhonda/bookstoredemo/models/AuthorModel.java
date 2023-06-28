@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,20 +15,20 @@ import java.util.List;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Entity
-@Table(name = "AUTHORS")
+@Table()
 public class AuthorModel {
 
     @Id
     @Column(name="author_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="id_Sequence")
-    @SequenceGenerator(name="id_Sqeuence", sequenceName="ID_SEQ")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
     @Temporal(TemporalType.DATE)
-    private Date birthday;
+    private LocalDate birthday;
 
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
     private List<BookModel> books;
 }
+

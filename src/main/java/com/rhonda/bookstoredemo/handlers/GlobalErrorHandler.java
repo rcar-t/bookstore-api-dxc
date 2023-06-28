@@ -33,7 +33,7 @@ public class GlobalErrorHandler implements WebExceptionHandler {
     }
 
     Mono<ServerResponse> handle(Throwable throwable) {
-        logger.error(throwable.getMessage());
+        throwable.printStackTrace();
         if (throwable instanceof IllegalArgumentException) {
             return createResponse(BAD_REQUEST, throwable.getMessage());
         }
@@ -54,12 +54,12 @@ class HandlerStrategiesResponseContext implements ServerResponse.Context {
     }
 
     @Override
-    public List<HttpMessageWriter<?>> messageWriters() {
+    public @NotNull List<HttpMessageWriter<?>> messageWriters() {
         return this.handlerStrategies.messageWriters();
     }
 
     @Override
-    public List<ViewResolver> viewResolvers(){
+    public @NotNull List<ViewResolver> viewResolvers(){
         return this.handlerStrategies.viewResolvers();
     }
 

@@ -13,21 +13,20 @@ import java.util.List;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Entity()
-@Table(name = "BOOKS")
+@Table(name= "BOOK_MODEL")
 public class BookModel {
 
     @Id
     @Column(name="book_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="id_Sequence")
-    @SequenceGenerator(name="id_Sqeuence", sequenceName="ID_SEQ")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String isbn;
 
     private String title;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "books_authors",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
             joinColumns = {
                     @JoinColumn(name = "book_id", referencedColumnName = "book_id",
                             nullable = false, updatable = false)},
