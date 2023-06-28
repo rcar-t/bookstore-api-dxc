@@ -22,9 +22,6 @@ public class ApiRoutes {
                         .PUT("/update/{id}", accept(APPLICATION_JSON), bookHandler::updateBook)
                         .DELETE("/delete/{id}",  bookHandler::deleteBook)
                 )
-//               .path("/user", bookBuilder -> bookBuilder
-//                       .GET()
-//               )
         ).build();
     }
 }
