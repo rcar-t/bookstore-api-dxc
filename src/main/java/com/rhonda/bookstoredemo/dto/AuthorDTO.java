@@ -22,6 +22,7 @@ public class AuthorDTO {
     @NotBlank(message = "isbn cannot be empty")
     private String name;
 
+    @NotBlank(message = "birthday cannot be empty")
     private String birthday;
 
     public AuthorModel toAuthorModel() {

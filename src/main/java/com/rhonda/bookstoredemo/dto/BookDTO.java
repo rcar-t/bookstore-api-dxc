@@ -30,9 +30,8 @@ public class BookDTO {
     @NotEmpty(message = "must have at least one author")
     private List<AuthorDTO> authors;
 
-    @NotNull(message = "year cannot be null")
     @Positive(message = "year must be greater than 0")
-    @Digits(integer = 4, fraction = 0)
+    @Digits(integer = 4, fraction = 0, message = "year must have at least 4 digits")
     private int yearPublished;
 
     @NotNull(message = "price cannot be null")
