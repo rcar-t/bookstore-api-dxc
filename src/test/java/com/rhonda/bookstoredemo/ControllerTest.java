@@ -19,7 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
@@ -46,7 +45,7 @@ public class ControllerTest {
 
     @Test
     public void insertBookOkTest() {
-        AuthorDTO author = new AuthorDTO(1L, "name", new Date(12000L));
+        AuthorDTO author = new AuthorDTO(1L, "name", "2019-10-12");
         BookDTO book = new BookDTO(1L, "isbn", "title", List.of(author), 1900, 50.4, "genre");
 
         when(bookService.insertOrUpdateBook(any())).thenReturn(Mono.just(book));
@@ -62,7 +61,7 @@ public class ControllerTest {
 
     @Test
     public void insertBookDataValidationTest() {
-        AuthorDTO author = new AuthorDTO(1L, "name", new Date(12000L));
+        AuthorDTO author = new AuthorDTO(1L, "name", "2019-10-12");
         BookDTO book = new BookDTO(1L, "", "", List.of(author), -40, 50.4, "genre");
 
         when(bookService.insertOrUpdateBook(any())).thenReturn(Mono.just(book));

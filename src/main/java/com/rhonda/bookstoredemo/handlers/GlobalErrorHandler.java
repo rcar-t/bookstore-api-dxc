@@ -34,6 +34,7 @@ public class GlobalErrorHandler implements WebExceptionHandler {
 
     Mono<ServerResponse> handle(Throwable throwable) {
         throwable.printStackTrace();
+        logger.info("Error response generated: " + throwable.getMessage());
         if (throwable instanceof IllegalArgumentException) {
             return createResponse(BAD_REQUEST, throwable.getMessage());
         }
