@@ -35,7 +35,7 @@ public class BookModel {
                             nullable = false, updatable = false)})
     private List<AuthorModel> authors;
 
-    private int year;
+    private int yearPublished;
 
     private double price;
 

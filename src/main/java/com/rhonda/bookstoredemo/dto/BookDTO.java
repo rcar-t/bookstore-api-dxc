@@ -33,7 +33,7 @@ public class BookDTO {
     @NotNull(message = "year cannot be null")
     @Positive(message = "year must be greater than 0")
     @Digits(integer = 4, fraction = 0)
-    private int year;
+    private int yearPublished;
 
     @NotNull(message = "price cannot be null")
     @Positive(message = "price must be greater than 0")
@@ -48,7 +48,7 @@ public class BookDTO {
                 .setIsbn(isbn)
                 .setTitle(title)
                 .setAuthors(authors.stream().map(AuthorDTO::toAuthorModel).toList())
-                .setYear(year)
+                .setYearPublished(yearPublished)
                 .setPrice(price)
                 .setGenre(genre);
     }
@@ -58,7 +58,7 @@ public class BookDTO {
         isbn = bookModel.getIsbn();
         title = bookModel.getTitle();
         authors = bookModel.getAuthors().stream().map(AuthorDTO::new).toList();
-        year = bookModel.getYear();
+        yearPublished = bookModel.getYearPublished();
         price = bookModel.getPrice();
         genre = bookModel.getGenre();
     }
